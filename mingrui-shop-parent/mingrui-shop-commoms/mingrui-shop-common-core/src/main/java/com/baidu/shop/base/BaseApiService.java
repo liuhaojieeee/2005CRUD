@@ -25,6 +25,7 @@ public class BaseApiService<T> {
     public Result<T> setResultError(String msg) {
         return setResult(HTTPStatus.ERROR, msg, null);
     }
+
     // 返回成功，可以传data值
     public Result<T> setResultSuccess(T data) {
         return setResult(HTTPStatus.OK, HTTPStatus.OK + "", data);
