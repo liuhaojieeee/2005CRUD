@@ -25,7 +25,7 @@ import java.util.List;
  * @Version V1.0
  **/
 @RestController
-public class CategoryServiceImpl extends BaseApiService implements CategoryService {
+public class CategoryServiceImpl extends BaseApiService implements CategoryService{
 
     @Resource
     private CategoryMapper categoryMapper;

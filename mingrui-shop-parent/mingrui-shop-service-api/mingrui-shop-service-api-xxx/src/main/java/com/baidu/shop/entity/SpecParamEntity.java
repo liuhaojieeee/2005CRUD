@@ -22,10 +22,11 @@ public class SpecParamEntity {
     private Integer cid;
     private Integer groupId;
     private String name;
+
     @Column(name = "`numeric`")
-    private Integer numeric;
+    private Boolean numeric;
     private String unit;
-    private Integer generic;
-    private Integer searching;
+    private Boolean generic;
+    private Boolean searching;
     private String segments;
 }

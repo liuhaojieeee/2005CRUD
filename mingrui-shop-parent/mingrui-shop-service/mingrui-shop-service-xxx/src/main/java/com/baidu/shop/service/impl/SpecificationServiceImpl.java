@@ -3,8 +3,11 @@ package com.baidu.shop.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.shop.base.BaseApiService;
 import com.baidu.shop.base.Result;
+import com.baidu.shop.dao.SpecParamDTO;
 import com.baidu.shop.dao.SpecificationDTO;
+import com.baidu.shop.entity.SpecParamEntity;
 import com.baidu.shop.entity.SpecificationEntity;
+import com.baidu.shop.mapper.SpecParamMapper;
 import com.baidu.shop.mapper.SpecificationMapper;
 import com.baidu.shop.service.SpecificationService;
 import com.baidu.shop.utils.BaiduBeanUtil;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -26,14 +30,63 @@ import java.util.List;
 @RestController
 public class SpecificationServiceImpl extends BaseApiService implements SpecificationService {
 
-    @Autowired
+    @Resource
     private SpecificationMapper specificationMapper;
 
+    @Resource
+    private SpecParamMapper specParamMapper;
+
+
+
+    //规格组参数CRUD
+    @Override
+    @Transactional
+    public Result<JSONObject> getParamDelete(Integer id) {
+        specParamMapper.deleteByPrimaryKey(id);
+        return this.setResultSuccess();
+    }
 
     @Override
+    @Transactional
+    public Result<JSONObject> getParamAdd(SpecParamDTO specParamDTO) {
+        specParamMapper.insertSelective(
+                BaiduBeanUtil.copyProperties(specParamDTO,SpecParamEntity.class));
+        return this.setResultSuccess();
+    }
+
+    @Override
+    @Transactional
+    public Result<JSONObject> getParamEdit(SpecParamDTO specParamDTO) {
+        specParamMapper.updateByPrimaryKeySelective(
+                BaiduBeanUtil.copyProperties(specParamDTO,SpecParamEntity.class));
+        return this.setResultSuccess();
+    }
+
+    @Override
+    public Result<List<SpecParamEntity>> getParamList(SpecParamDTO specParamDTO) {
+
+        SpecParamEntity specParamEntity = BaiduBeanUtil.copyProperties(specParamDTO, SpecParamEntity.class);
+        Example example = new Example(SpecParamEntity.class);
+        example.createCriteria().andEqualTo("groupId", specParamEntity.getGroupId());
+        List<SpecParamEntity> paramEntities = specParamMapper.selectByExample(example);
+
+        return this.setResultSuccess(paramEntities);
+    }
+
+
+
+
+    //规格组CRUD
+    @Override
     public Result<JSONObject> deleteSpecification(Integer id) {
+        Example example = new Example(SpecParamEntity.class);
+        example.createCriteria().andEqualTo("groupId",id);
+        List<SpecParamEntity> entities = specParamMapper.selectByExample(example);
+        if(entities.size() >= 1) return this.setResultError("规格组内存在参数，不能删");
+
+
         specificationMapper.deleteByPrimaryKey(id);
-        return setResultSuccess();
+        return this.setResultSuccess();
     }
 
     @Override
@@ -41,7 +94,7 @@ public class SpecificationServiceImpl extends BaseApiService implements Specific
     public Result<JSONObject> updateSpecification(SpecificationDTO specificationDTO) {
         specificationMapper.updateByPrimaryKeySelective(
                 BaiduBeanUtil.copyProperties(specificationDTO,SpecificationEntity.class));
-        return setResultSuccess();
+        return this.setResultSuccess();
     }
 
     @Override
@@ -51,7 +104,7 @@ public class SpecificationServiceImpl extends BaseApiService implements Specific
         specificationMapper.insertSelective(
                 BaiduBeanUtil.copyProperties(specificationDTO,SpecificationEntity.class));
 
-        return setResultSuccess();
+        return this.setResultSuccess();
     }
 
     @Override
@@ -59,12 +112,12 @@ public class SpecificationServiceImpl extends BaseApiService implements Specific
 
         Example example = new Example(SpecificationEntity.class);
 
-            example.createCriteria().andEqualTo("cid",
-                    BaiduBeanUtil.copyProperties(specificationDTO,SpecificationEntity.class).getCid());
+        example.createCriteria().andEqualTo("cid",
+                BaiduBeanUtil.copyProperties(specificationDTO,SpecificationEntity.class).getCid());
 
         List<SpecificationEntity> list = specificationMapper.selectByExample(example);
 
-        return setResultSuccess(list);
+        return this.setResultSuccess(list);
     }
 
 
