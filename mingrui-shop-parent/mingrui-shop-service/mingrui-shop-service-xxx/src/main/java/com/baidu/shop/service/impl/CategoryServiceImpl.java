@@ -2,13 +2,14 @@ package com.baidu.shop.service.impl;
 
 import com.baidu.shop.base.BaseApiService;
 import com.baidu.shop.base.Result;
+import com.baidu.shop.entity.CategoryBrandEntity;
 import com.baidu.shop.entity.CategoryEntity;
-import com.baidu.shop.entity.SpecificationCategoryEntity;
+import com.baidu.shop.mapper.CategoryBrandMapper;
 import com.baidu.shop.mapper.CategoryMapper;
 import com.baidu.shop.service.CategoryService;
 import com.baidu.shop.status.HTTPStatus;
 import com.baidu.shop.utils.ObjectUtil;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
@@ -28,6 +29,9 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
 
     @Resource
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private CategoryBrandMapper categoryBrandMapper;
 
 
 
@@ -101,13 +105,11 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         example.createCriteria().andEqualTo("parentId",categoryEntity1.getParentId());
         List<CategoryEntity> categoryEntities = categoryMapper.selectByExample(example);
 
-        //查询tb_specification表中对应的品牌是否存在 ，存在的话不能被删除
-
-        SpecificationCategoryEntity entity = new SpecificationCategoryEntity();
-        CategoryEntity entity1 = categoryMapper.selectByPrimaryKey(entity.getCategoryId());
-        if (categoryEntities.contains(entity1)) {
-            return setResultError("此节点不能被删除");
-        }
+        //查询删除节点绑定的品牌,存在的话不能被删除
+        Example example1 = new Example(CategoryBrandEntity.class);
+        example1.createCriteria().andEqualTo("categoryId", id);
+        List<CategoryBrandEntity> categoryBrandEntities = categoryBrandMapper.selectByExample(example1);
+        if(categoryBrandEntities.size() >= 1) return setResultError("此节点被品牌绑定，不能被删除");
 
         //如果叶子节点下的数据 <=1 时 就把当前父节点 修改为叶子节点
         if(categoryEntities.size() <= 1 ){
