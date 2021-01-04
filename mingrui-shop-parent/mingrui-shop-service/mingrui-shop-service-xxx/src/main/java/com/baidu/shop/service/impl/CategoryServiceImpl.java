@@ -103,6 +103,12 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
 
         //查询tb_specification表中对应的品牌是否存在 ，存在的话不能被删除
 
+        SpecificationCategoryEntity entity = new SpecificationCategoryEntity();
+        CategoryEntity entity1 = categoryMapper.selectByPrimaryKey(entity.getCategoryId());
+        if (categoryEntities.contains(entity1)) {
+            return setResultError("此节点不能被删除");
+        }
+
         //如果叶子节点下的数据 <=1 时 就把当前父节点 修改为叶子节点
         if(categoryEntities.size() <= 1 ){
 
