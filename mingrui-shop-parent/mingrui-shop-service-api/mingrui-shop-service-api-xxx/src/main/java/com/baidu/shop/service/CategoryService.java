@@ -18,6 +18,10 @@ public interface CategoryService {
     @GetMapping(value = "category/list")
     Result<List<CategoryEntity>> getCategoryByPid(Integer pid);
 
+    @ApiOperation(value = "通过brandId查询商品分类")
+    @GetMapping(value = "category/brand")
+    Result<List<CategoryEntity>> getCategoryByBrandId(Integer brandId);
+
     @ApiOperation(value = "删除商品分类")
     @DeleteMapping(value = "category/delete")
     Result<Object> deleteCategoryById(Integer id);

@@ -3,6 +3,7 @@ package com.baidu.shop.service.impl;
 import com.baidu.shop.base.BaseApiService;
 import com.baidu.shop.base.Result;
 import com.baidu.shop.entity.CategoryEntity;
+import com.baidu.shop.entity.SpecificationCategoryEntity;
 import com.baidu.shop.mapper.CategoryMapper;
 import com.baidu.shop.service.CategoryService;
 import com.baidu.shop.status.HTTPStatus;
@@ -27,6 +28,9 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
 
     @Resource
     private CategoryMapper categoryMapper;
+
+
+
 
     @Override
     @Transactional
@@ -68,6 +72,14 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         return this.setResultSuccess(list);
     }
 
+    @Override
+    public Result<List<CategoryEntity>> getCategoryByBrandId(Integer brandId) {
+
+        List<CategoryEntity> list = categoryMapper.getCategoryByBrandId(brandId);
+
+        return this.setResultSuccess(list);
+    }
+
     @Transactional
     @Override
     public Result<Object> deleteCategoryById(Integer id) {
@@ -88,6 +100,8 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         Example example = new Example(CategoryEntity.class);
         example.createCriteria().andEqualTo("parentId",categoryEntity1.getParentId());
         List<CategoryEntity> categoryEntities = categoryMapper.selectByExample(example);
+
+        //查询tb_specification表中对应的品牌是否存在 ，存在的话不能被删除
 
         //如果叶子节点下的数据 <=1 时 就把当前父节点 修改为叶子节点
         if(categoryEntities.size() <= 1 ){

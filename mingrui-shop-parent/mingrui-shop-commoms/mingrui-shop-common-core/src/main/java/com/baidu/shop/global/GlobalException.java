@@ -23,7 +23,7 @@ import java.util.List;
 @RestControllerAdvice
 @Slf4j
 public class GlobalException {
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(value = RuntimeException.class)
     public Result<JSONObject> test(Exception e){
         Result<JSONObject> result = new Result();
         result.setCode(HTTPStatus.ERROR);
@@ -32,7 +32,7 @@ public class GlobalException {
         return result;
     }
 
-    @ExceptionHandler(value= MethodArgumentNotValidException.class)
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public List<Result<JsonObject>>
     methodArgumentNotValidHandler(MethodArgumentNotValidException exception) throws
             Exception

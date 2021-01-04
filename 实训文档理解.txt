@@ -25,4 +25,5 @@ mingrui-shop-commoms
 			
 	BaseApiService里面是返回的方法 几个重载的方法 是成功回调函数和 失败回调函数 方法体没没数据 直接返回（base）result的对象
 			mingrui-shop-service-api-xxx里写方法的时候就 调用result方法		
-			mingrui-shop-service里面引进mingrui-shop-service-api-xxx的依赖  
+			mingrui-shop-service里面引进mingrui-shop-service-api-xxx的依赖 
+			
