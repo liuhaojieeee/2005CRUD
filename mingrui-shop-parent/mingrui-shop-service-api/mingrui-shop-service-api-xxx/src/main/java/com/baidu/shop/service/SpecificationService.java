@@ -32,8 +32,6 @@ public interface SpecificationService {
     Result<JSONObject> deleteSpecification(@PathVariable Integer id);
 
 
-
-
     @ApiOperation("规格组参数查询")
     @GetMapping("param/list/")
     Result<List<SpecParamEntity>> getParamList(SpecParamDTO specParamDTO);
