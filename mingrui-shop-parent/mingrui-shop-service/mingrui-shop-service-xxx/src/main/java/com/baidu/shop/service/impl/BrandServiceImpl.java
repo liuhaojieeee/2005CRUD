@@ -10,6 +10,7 @@ import com.baidu.shop.mapper.CategoryBrandMapper;
 import com.baidu.shop.mapper.BrandMapper;
 import com.baidu.shop.service.BrandService;
 import com.baidu.shop.utils.BaiduBeanUtil;
+import com.baidu.shop.utils.ObjectUtil;
 import com.baidu.shop.utils.PinyinUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,12 +35,20 @@ import java.util.stream.Collectors;
 @RestController
 public class BrandServiceImpl extends BaseApiService implements BrandService {
 
-    @Autowired
+    @Resource
     private BrandMapper brandMapper;
 
-    @Autowired
+    @Resource
     private CategoryBrandMapper categoryBrandMapper;
 
+
+    @Override
+    public Result<List<BrandEntity>> getBrandbyId(Integer cid) {
+
+            List<BrandEntity> list = categoryBrandMapper.getBrandbyId(cid);
+
+        return this.setResultSuccess(list);
+    }
 
     @Override
     public Result<JSONObject> deleteBrandCategoryById(Integer id) {

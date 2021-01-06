@@ -20,6 +20,10 @@ public interface BrandService {
     @ApiOperation("品牌查询")
     Result<PageInfo<BrandEntity>> getBrandList(BrandDTO brandDTO);
 
+    @GetMapping(value="brand/getBrandbyId")
+    @ApiOperation("根据分类id查询品牌数据")
+    Result<List<BrandEntity>> getBrandbyId(Integer cid);
+
     @PostMapping(value = "brand/save")
     @ApiOperation("品牌新增")
     Result<JSONObject> saveBrandList(@RequestBody BrandDTO brandDTO);
