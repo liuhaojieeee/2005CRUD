@@ -31,19 +31,22 @@ public interface SpecificationService {
     @DeleteMapping("spec/delete/{id}")
     Result<JSONObject> deleteSpecification(@PathVariable Integer id);
 
-    @ApiOperation("规格组查询")
+
+
+
+    @ApiOperation("规格组参数查询")
     @GetMapping("param/list/")
     Result<List<SpecParamEntity>> getParamList(SpecParamDTO specParamDTO);
 
-    @ApiOperation("规格组新增")
+    @ApiOperation("规格组参数新增")
     @PostMapping("param/save/")
     Result<JSONObject> getParamAdd(@RequestBody SpecParamDTO specParamDTO);
 
-    @ApiOperation("规格组修改")
+    @ApiOperation("规格组参数修改")
     @PutMapping("param/save/")
     Result<JSONObject> getParamEdit(@RequestBody SpecParamDTO specParamDTO);
 
-    @ApiOperation("规格组删除")
+    @ApiOperation("规格组参数删除")
     @DeleteMapping("param/delete")
     Result<JSONObject> getParamDelete(Integer id);
 

@@ -11,8 +11,6 @@ import com.baidu.shop.mapper.SpecParamMapper;
 import com.baidu.shop.mapper.SpecificationMapper;
 import com.baidu.shop.service.SpecificationService;
 import com.baidu.shop.utils.BaiduBeanUtil;
-import com.baidu.shop.utils.ObjectUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
@@ -111,9 +109,8 @@ public class SpecificationServiceImpl extends BaseApiService implements Specific
     public Result<List<SpecificationEntity>> getSpecicationList(SpecificationDTO specificationDTO) {
 
         Example example = new Example(SpecificationEntity.class);
-
-        example.createCriteria().andEqualTo("cid",
-                BaiduBeanUtil.copyProperties(specificationDTO,SpecificationEntity.class).getCid());
+        Integer cid = BaiduBeanUtil.copyProperties(specificationDTO, SpecificationEntity.class).getCid();
+        example.createCriteria().andEqualTo("cid",cid);
 
         List<SpecificationEntity> list = specificationMapper.selectByExample(example);
 

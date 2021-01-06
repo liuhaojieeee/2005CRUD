@@ -25,7 +25,7 @@ import java.util.List;
  * @Version V1.0
  **/
 @RestController
-public class CategoryServiceImpl extends BaseApiService implements CategoryService{
+public class CategoryServiceImpl extends BaseApiService implements CategoryService {
 
     @Resource
     private CategoryMapper categoryMapper;
@@ -52,7 +52,6 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
 
         //判断父类是否为父节点
         if(categoryEntity.getIsParent() != 1){
-
             //判断新增时 将当前节点设置为父节点
             CategoryEntity updateCategoryEntity2 = new CategoryEntity();
             updateCategoryEntity2.setId(entity.getParentId());
@@ -78,9 +77,7 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
 
     @Override
     public Result<List<CategoryEntity>> getCategoryByBrandId(Integer brandId) {
-
         List<CategoryEntity> list = categoryMapper.getCategoryByBrandId(brandId);
-
         return this.setResultSuccess(list);
     }
 
@@ -109,7 +106,7 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         Example example1 = new Example(CategoryBrandEntity.class);
         example1.createCriteria().andEqualTo("categoryId", id);
         List<CategoryBrandEntity> categoryBrandEntities = categoryBrandMapper.selectByExample(example1);
-        if(categoryBrandEntities.size() >= 1) return setResultError("此节点被品牌绑定，不能被删除");
+        if(categoryBrandEntities.size() >= 1) return setResultError("此节点被品牌绑定,不能被删除");
 
         //如果叶子节点下的数据 <=1 时 就把当前父节点 修改为叶子节点
         if(categoryEntities.size() <= 1 ){

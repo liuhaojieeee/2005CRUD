@@ -22,4 +22,6 @@ public class SpecificationEntity {
     private Integer cid;
 
     private String name;
+
+
 }

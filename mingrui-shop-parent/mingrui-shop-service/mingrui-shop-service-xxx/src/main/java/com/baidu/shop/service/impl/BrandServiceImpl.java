@@ -53,9 +53,9 @@ public class BrandServiceImpl extends BaseApiService implements BrandService {
     @Override
     public Result<JSONObject> editBrandList(BrandDTO brandDTO) {
 
-            BrandEntity brandEntity = BaiduBeanUtil.copyProperties(brandDTO,BrandEntity.class);
-            brandEntity.setLetter(PinyinUtil.getUpperCase(String.valueOf(brandEntity.getName().toCharArray()[0]),false).toCharArray()[0]);
-            brandMapper.updateByPrimaryKeySelective(brandEntity);
+        BrandEntity brandEntity = BaiduBeanUtil.copyProperties(brandDTO,BrandEntity.class);
+        brandEntity.setLetter(PinyinUtil.getUpperCase(String.valueOf(brandEntity.getName().toCharArray()[0]),false).toCharArray()[0]);
+        brandMapper.updateByPrimaryKeySelective(brandEntity);
 
 //        Example example = new Example(CategoryBrandEntity.class);
 //        example.createCriteria().andEqualTo("brandId",brandEntity.getId());
@@ -82,7 +82,7 @@ public class BrandServiceImpl extends BaseApiService implements BrandService {
 
         brandMapper.insertSelective(brandEntity);
 
-            String categories = brandDTO.getCategories();
+        String categories = brandDTO.getCategories();
         if(StringUtils.isEmpty(categories)) return this.setResultError("分类集合不能为空");
 //        List<CategoryBrandEntity> list = new ArrayList<>();
 
@@ -117,7 +117,7 @@ public class BrandServiceImpl extends BaseApiService implements BrandService {
 
 
 
-//批量新增工具类
+    //批量新增工具类
     private void addBatchBrandCategory(String categories,Integer id){
         if(StringUtils.isEmpty(categories)) throw  new RuntimeException();
 

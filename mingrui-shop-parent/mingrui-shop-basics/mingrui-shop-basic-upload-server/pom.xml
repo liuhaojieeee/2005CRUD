@@ -12,6 +12,11 @@
     <artifactId>mingrui-shop-basic-upload-server</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+            <version>1.26.1-RELEASE</version>
+        </dependency>
         <!-- SpringBoot-整合Web组件 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

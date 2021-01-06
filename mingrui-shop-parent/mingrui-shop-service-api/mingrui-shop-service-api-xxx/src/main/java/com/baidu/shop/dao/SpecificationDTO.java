@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
  * @Version V1.0
  **/
 @Data
-@ApiModel(value = "规格参数传递DTO")
+@ApiModel(value = "规格组传递DTO")
 public class SpecificationDTO extends BaseDTO {
 
     @Id
