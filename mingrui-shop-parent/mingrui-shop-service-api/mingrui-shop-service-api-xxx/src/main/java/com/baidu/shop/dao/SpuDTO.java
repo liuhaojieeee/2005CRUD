@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName SpuDTO
@@ -22,13 +23,12 @@ import java.util.Date;
 @Data
 public class SpuDTO extends BaseDTO {
 
-    @Id
     @ApiModelProperty(value = "主键",example = "1")
     @NotNull(message = "主键不能为空",groups = {MingruiOperation.Update.class})//参数校验
     private Integer id;
 
     @ApiModelProperty(value = "标题")
-    @NotEmpty(message = "标题不能为空",groups = {MingruiOperation.Add.class})
+    @NotEmpty(message = "标题不能为空",groups = {MingruiOperation.Add.class,MingruiOperation.Update.class})
     private String title;
 
     @ApiModelProperty(value = "子标题")
@@ -69,5 +69,11 @@ public class SpuDTO extends BaseDTO {
 
     private String brandName;
     private String categoryName;
+
+    @ApiModelProperty(value = "大字段数据")
+    private SpuDetailDTO spuDetail;
+
+    @ApiModelProperty(value = "sku属性数据集合")
+    private List<SkuDTO> skus;
 
 }

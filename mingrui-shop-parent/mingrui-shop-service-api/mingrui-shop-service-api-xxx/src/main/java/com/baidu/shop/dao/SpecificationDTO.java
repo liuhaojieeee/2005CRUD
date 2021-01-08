@@ -21,7 +21,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "规格组传递DTO")
 public class SpecificationDTO extends BaseDTO {
 
-    @Id
     @ApiModelProperty(value = "主键", example = "1")
     @NotNull(message = "主键不能为空",groups = {MingruiOperation.Update.class})
     private Integer id;
