@@ -55,7 +55,6 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     public Result<JSONObject> editSaleble(SpuDTO spuDTO) {
 
         System.out.println(spuDTO);
-
         SpuEntity spuEntity = BaiduBeanUtil.copyProperties(spuDTO, SpuEntity.class);
 
         goodsMapper.updateByPrimaryKeySelective(spuEntity);
@@ -63,6 +62,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     }
 
     @Override
+    @Transactional
     public Result<List<SkuDTO>> deleteGoods(Integer spuId) {
         //删除4表
         goodsMapper.deleteByPrimaryKey(spuId);
@@ -104,6 +104,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     }
 
     @Override
+    @Transactional
     public Result<JSONObject> editGoods(SpuDTO spuDTO) {
         //需要修改4张表 spu -> spuDetail -> sku -> stock
         //修改spu表
