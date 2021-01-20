@@ -1,10 +1,12 @@
 package com.baidu.shop.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baidu.shop.base.Result;
 import com.baidu.shop.entity.CategoryEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
@@ -23,5 +25,11 @@ public interface CategoryService {
     @GetMapping(value = "category/list")
     Result<List<CategoryEntity>> getCategoryByPid(Integer pid);
 
+    @ApiOperation(value = "删除商品分类")
+    @DeleteMapping(value = "category/delete")
+    Result<Object> deleteCategoryById(Integer id);
 
+    @ApiOperation(value = "修改商品分类")
+    @PutMapping(value = "category/edit")
+    Result<Object> editCategoryById(@RequestBody CategoryEntity entity);
 }
