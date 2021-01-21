@@ -6,6 +6,7 @@ import com.baidu.shop.entity.CategoryEntity;
 import com.baidu.shop.mapper.CategoryMapper;
 import com.baidu.shop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
@@ -25,14 +26,38 @@ public class CategoryServices extends BaseApiService implements CategoryService 
     @Resource
     private CategoryMapper categoryMapper;
 
+    @Override
+    @Transactional
+    public Result<Object> addCategory(CategoryEntity entity) {
+
+
+
+        //查询一下当前新增数据的父类数据
+        CategoryEntity entity1 = categoryMapper.selectByPrimaryKey(entity.getParentId());
+
+        //新增时往子类节点新增数据时  那么将当前的子类节点升级为父类节点
+        if(entity1.getIsParent() != 1){
+
+            CategoryEntity categoryEntity = new CategoryEntity();
+            categoryEntity.setId(entity.getParentId());
+            categoryEntity.setIsParent(1);
+            categoryMapper.updateByPrimaryKeySelective(categoryEntity);
+        }
+
+        categoryMapper.insertSelective(entity);
+
+        return this.setResultSuccess();
+    }
 
     @Override
+    @Transactional
     public Result<Object> editCategoryById(CategoryEntity entity) {
         categoryMapper.updateByPrimaryKeySelective(entity);
         return this.setResultSuccess();
     }
 
     @Override
+    @Transactional
     public Result<Object> deleteCategoryById(Integer id) {
         if(id == null && id <= 0) return this.setResultError("id不合法");
 

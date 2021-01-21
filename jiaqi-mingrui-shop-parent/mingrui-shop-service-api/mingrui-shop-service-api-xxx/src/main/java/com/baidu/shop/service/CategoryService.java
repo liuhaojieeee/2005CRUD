@@ -32,4 +32,8 @@ public interface CategoryService {
     @ApiOperation(value = "修改商品分类")
     @PutMapping(value = "category/edit")
     Result<Object> editCategoryById(@RequestBody CategoryEntity entity);
+
+    @ApiOperation(value = "新增商品分类")
+    @PostMapping(value = "category/add")
+    Result<Object> addCategory(@RequestBody CategoryEntity entity);
 }
