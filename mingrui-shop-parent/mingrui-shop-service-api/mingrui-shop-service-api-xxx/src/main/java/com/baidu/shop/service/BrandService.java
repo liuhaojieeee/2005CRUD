@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Table;
 import java.util.List;
 
 @Api(tags = "品牌接口")
