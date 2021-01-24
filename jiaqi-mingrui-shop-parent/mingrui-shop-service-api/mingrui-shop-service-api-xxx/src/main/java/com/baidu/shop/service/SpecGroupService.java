@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.baidu.shop.DTO.SpecGroupDTO;
 import com.baidu.shop.base.Result;
 import com.baidu.shop.entity.SpecGroupEntity;
+import com.baidu.shop.validate.MingruiOperation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,11 +21,11 @@ public interface SpecGroupService {
 
     @PostMapping(value = "spec/save")
     @ApiOperation(value = "规格组新增")
-    Result<JSONObject> addSpecGroup(@RequestBody SpecGroupDTO specGroupDTO);
+    Result<JSONObject> addSpecGroup(@Validated(MingruiOperation.Add.class) @RequestBody SpecGroupDTO specGroupDTO);
 
     @PutMapping(value = "spec/save")
     @ApiOperation(value = "规格组修改")
-    Result<JSONObject> editSpecGroup(@RequestBody SpecGroupDTO specGroupDTO);
+    Result<JSONObject> editSpecGroup(@Validated(MingruiOperation.Update.class) @RequestBody SpecGroupDTO specGroupDTO);
 
     @DeleteMapping(value = "spec/delete/{id}")
     @ApiOperation(value = "规格组删除")
