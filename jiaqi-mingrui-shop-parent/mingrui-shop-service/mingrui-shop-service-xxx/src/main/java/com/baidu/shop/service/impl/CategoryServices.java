@@ -26,11 +26,16 @@ public class CategoryServices extends BaseApiService implements CategoryService 
     @Resource
     private CategoryMapper categoryMapper;
 
+
+    @Override
+    public Result<List<CategoryEntity>> getCategoryByBrandId(Integer brandId) {
+        List<CategoryEntity> list = categoryMapper.getCategoryByBrandId(brandId);
+        return this.setResultSuccess(list);
+    }
+
     @Override
     @Transactional
     public Result<Object> addCategory(CategoryEntity entity) {
-
-
 
         //查询一下当前新增数据的父类数据
         CategoryEntity entity1 = categoryMapper.selectByPrimaryKey(entity.getParentId());

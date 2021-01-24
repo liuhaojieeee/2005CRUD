@@ -20,6 +20,7 @@ import javax.persistence.Table;
 public class BrandEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

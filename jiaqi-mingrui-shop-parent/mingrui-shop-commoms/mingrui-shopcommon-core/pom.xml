@@ -13,6 +13,11 @@
     <artifactId>mingrui-shopcommon-core</artifactId>
 
     <dependencies>
+        <!-- SpringBoot-整合Web组件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <!--处理json与各种数据类型或文档类型的转换-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -26,8 +31,21 @@
             <version>1.9.13</version>
         </dependency>
 
+        <!--帮助开发人员快速生成API文档-->
         <dependency>
-        <groupId>org.codehaus.jackson</groupId>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-lgpl</artifactId>
             <version>1.9.13</version>
         </dependency>
@@ -52,12 +70,6 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.11.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.5.20</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
