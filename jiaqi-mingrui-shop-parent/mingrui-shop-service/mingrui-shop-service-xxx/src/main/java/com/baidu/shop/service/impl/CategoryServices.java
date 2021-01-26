@@ -2,7 +2,10 @@ package com.baidu.shop.service.impl;
 
 import com.baidu.shop.base.BaseApiService;
 import com.baidu.shop.base.Result;
+import com.baidu.shop.entity.CategoryBrandEntity;
 import com.baidu.shop.entity.CategoryEntity;
+import com.baidu.shop.entity.SpecGroupEntity;
+import com.baidu.shop.mapper.CategoryBrandMapper;
 import com.baidu.shop.mapper.CategoryMapper;
 import com.baidu.shop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class CategoryServices extends BaseApiService implements CategoryService 
 
     @Resource
     private CategoryMapper categoryMapper;
+
+    @Resource
+    private CategoryBrandMapper categoryBrandMapper;
 
 
     @Override
@@ -67,6 +73,13 @@ public class CategoryServices extends BaseApiService implements CategoryService 
         if(id == null && id <= 0) return this.setResultError("id不合法");
 
         CategoryEntity categoryEntity = categoryMapper.selectByPrimaryKey(id);
+
+        //当前节点绑定的如果有品牌的话 不能被删除
+        Example example1 = new Example(CategoryBrandEntity.class);
+        example1.createCriteria().andEqualTo("categoryId",id);
+        List<CategoryBrandEntity> list1 = categoryBrandMapper.selectByExample(example1);
+        if(list1.size() >= 1) return this.setResultError("当前节点下有品牌，不能被删除");
+
 
         if(categoryEntity == null) return this.setResultError("数据不存在");
         if(categoryEntity.getIsParent() == 1) return this.setResultError("父节点不能被删除");

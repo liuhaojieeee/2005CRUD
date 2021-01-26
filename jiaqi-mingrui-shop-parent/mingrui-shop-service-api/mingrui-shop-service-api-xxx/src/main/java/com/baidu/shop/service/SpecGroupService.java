@@ -2,8 +2,10 @@ package com.baidu.shop.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.shop.DTO.SpecGroupDTO;
+import com.baidu.shop.DTO.SpecParamDTO;
 import com.baidu.shop.base.Result;
 import com.baidu.shop.entity.SpecGroupEntity;
+import com.baidu.shop.entity.SpecParamEntity;
 import com.baidu.shop.validate.MingruiOperation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,4 +32,22 @@ public interface SpecGroupService {
     @DeleteMapping(value = "spec/delete/{id}")
     @ApiOperation(value = "规格组删除")
     Result<JSONObject> deleteSpecGroup(@PathVariable Integer id);
+
+
+    @GetMapping(value = "param/list")
+    @ApiOperation(value = "规格组参数查询")
+    Result<List<SpecParamEntity>> getParamList(SpecParamDTO paramDTO);
+
+    @PostMapping(value = "param/save")
+    @ApiOperation(value = "规格组参数新增")
+    Result<JSONObject> addParam(@Validated(MingruiOperation.Add.class) @RequestBody SpecParamDTO paramDTO);
+
+    @PutMapping(value = "param/save")
+    @ApiOperation(value = "规格组参数修改")
+    Result<JSONObject> editParam(@Validated(MingruiOperation.Update.class) @RequestBody SpecParamDTO paramDTO);
+
+    @DeleteMapping(value = "param/delete")
+    @ApiOperation(value = "规格组参数删除")
+    Result<JSONObject> deleteParam(Integer id);
+
 }

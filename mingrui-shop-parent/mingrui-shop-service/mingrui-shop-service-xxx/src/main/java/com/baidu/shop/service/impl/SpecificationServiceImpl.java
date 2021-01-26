@@ -68,6 +68,7 @@ public class SpecificationServiceImpl extends BaseApiService implements Specific
         Example example = new Example(SpecParamEntity.class);
         Example.Criteria criteria = example.createCriteria();
 
+
         if(ObjectUtil.isNotNull(specParamDTO.getGroupId()))
             criteria.andEqualTo("groupId", specParamEntity.getGroupId());
 
