@@ -30,7 +30,7 @@ public class test {
 
         ExecutorService executorService = new ThreadPoolExecutor(3, 5, 1L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(3), Executors.defaultThreadFactory(), new ThreadPoolExecutor.AbortPolicy());
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i <= 9; i++) {
             executorService.execute(()->{
                 System.out.println(Thread.currentThread().getName() + "===>办理业务");
             });
