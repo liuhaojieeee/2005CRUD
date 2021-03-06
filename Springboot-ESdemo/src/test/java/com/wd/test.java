@@ -1,6 +1,7 @@
 package com.wd;
 
 import com.wd.Entity.GoodsEntity;
+import com.wd.Utils.ESHighLightUtil;
 import com.wd.repository.GoodsESRepository;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -146,16 +147,19 @@ public class test{
 
         //重新设置title
         SearchHits<GoodsEntity> search = elasticsearchRestTemplate.search(queryBuilder.build(), GoodsEntity.class);
-        List<SearchHit<GoodsEntity>> collect = search.stream().map(hit -> {
-            Map<String, List<String>> highlightFields = hit.getHighlightFields();
+        List<SearchHit<GoodsEntity>> searchHits = search.getSearchHits();
+        ESHighLightUtil.getHighlightList(searchHits);
 
-            hit.getContent().setTitle(highlightFields.get("title").get(0));
-            hit.getContent().setBrand(highlightFields.get("brand").get(0));
-            System.out.println(hit);
-            return hit;
-        }).collect(Collectors.toList());
-
-        System.out.println(collect);
+        System.out.println(searchHits);
+        //        List<SearchHit<GoodsEntity>> collect = search.stream().map(hit -> {
+//            Map<String, List<String>> highlightFields = hit.getHighlightFields();
+//
+//            hit.getContent().setTitle(highlightFields.get("title").get(0));
+//            hit.getContent().setBrand(highlightFields.get("brand").get(0));
+//            System.out.println(hit);
+//            return hit;
+//        }).collect(Collectors.toList());
+//        System.out.println(collect);
     }
 
     @Test

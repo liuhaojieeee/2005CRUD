@@ -14,6 +14,7 @@ import com.baidu.shop.utils.ObjectUtil;
 import com.baidu.shop.utils.PinyinUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.xml.internal.ws.streaming.TidyXMLStreamReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +42,15 @@ public class BrandServiceImpl extends BaseApiService implements BrandService {
     @Resource
     private CategoryBrandMapper categoryBrandMapper;
 
+    @Override
+    public Result<List<BrandEntity>> getBrandByIds(String brandIds) {
+
+        List<Integer> collect = Arrays.asList(brandIds.split(","))
+                .stream().map(idStr -> Integer.parseInt(idStr)).collect(Collectors.toList());
+        List<BrandEntity> list = brandMapper.selectByIdList(collect);
+
+        return this.setResultSuccess(list);
+    }
 
     @Override
     public Result<List<BrandEntity>> getBrandbyId(Integer cid) {

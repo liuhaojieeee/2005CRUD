@@ -131,7 +131,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     }
 
     @Override
-    public Result<JSONObject> getSpuDetailBySpuId(Integer spuId) {
+    public Result<SpuDetailEntity> getSpuDetailBySpuId(Integer spuId) {
         SpuDetailEntity spuDetailEntity = spuDetailMapper.selectByPrimaryKey(spuId);
         return this.setResultSuccess(spuDetailEntity);
     }

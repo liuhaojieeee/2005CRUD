@@ -9,13 +9,16 @@ import com.baidu.shop.mapper.CategoryMapper;
 import com.baidu.shop.service.CategoryService;
 import com.baidu.shop.status.HTTPStatus;
 import com.baidu.shop.utils.ObjectUtil;
+import com.sun.xml.internal.ws.streaming.TidyXMLStreamReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName CategoryServiceImpl
@@ -34,7 +37,14 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
     private CategoryBrandMapper categoryBrandMapper;
 
 
+    @Override
+    public Result<List<CategoryEntity>> getCateByIds(String cateIds) {
 
+        List<Integer> collect = Arrays.asList(cateIds.split(","))
+                .stream().map(idStr -> Integer.valueOf(idStr)).collect(Collectors.toList());
+        List<CategoryEntity> list = categoryMapper.selectByIdList(collect);
+        return this.setResultSuccess(list);
+    }
 
     @Override
     @Transactional
@@ -62,6 +72,8 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         categoryMapper.insertSelective(entity);
         return this.setResultSuccess();
     }
+
+
 
 
     @Override

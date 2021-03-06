@@ -34,4 +34,7 @@ public interface CategoryService {
     @PostMapping(value = "/category/add")//声明哪个组下面的参数参加校验-->当前是校验Add组
     Result<Object> addCategorybyquery(@Validated(MingruiOperation.Add.class)  @RequestBody CategoryEntity entity);
 
+    @ApiOperation(value = "通过id集合查询分类信息")
+    @GetMapping(value = "category/getCateByIds")
+    Result<List<CategoryEntity>> getCateByIds(@RequestParam String cateIds);
 }
