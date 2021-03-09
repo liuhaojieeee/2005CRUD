@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>测试thymeleaf</title>
+</head>
+<body>
+        <ul>
+            <li>code,pass,age,likecolor</li>
+            <li th:each="stu:${student}">
+                <span th:text="${stu.code}"></span>-----
+                <span th:text="${stu.pass}"></span>-----
+                <span th:text="${stu.age}"></span>-----
+                <span th:text="${stu.likeColor}"></span>
+            </li>
+        </ul>
+</body>
+</html>

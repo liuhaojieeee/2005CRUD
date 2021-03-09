@@ -25,10 +25,13 @@ import com.google.common.math.DoubleMath;
 import com.netflix.discovery.converters.Auto;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.http.HttpStatus;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -75,9 +78,9 @@ public class ShopElasticsearchServiceImpl extends BaseApiService implements Shop
     private BrandFeign brandFeign;
 
     @Override
-    public Result<List<GoodsDoc>> search(String search,Integer page) {
+    public Result<List<GoodsDoc>> search(String search,Integer page,String filter) {
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
-        this.getNativeSearchQueryBuilder(nativeSearchQueryBuilder,search,page);
+        this.getNativeSearchQueryBuilder(nativeSearchQueryBuilder,search,page,filter);
         //结果查询
         SearchHits<GoodsDoc> searchHits = elasticsearchRestTemplate.search(nativeSearchQueryBuilder.build(), GoodsDoc.class);
         List<GoodsDoc> goodsDocs = ESHighLightUtil.getHighlightList(searchHits.getSearchHits());
@@ -138,12 +141,32 @@ public class ShopElasticsearchServiceImpl extends BaseApiService implements Shop
     }
 
     //得到NativeSearchQueryBuilder
-    public NativeSearchQueryBuilder getNativeSearchQueryBuilder(NativeSearchQueryBuilder nativeSearchQueryBuilder,String search,Integer page){
+    public NativeSearchQueryBuilder getNativeSearchQueryBuilder(NativeSearchQueryBuilder nativeSearchQueryBuilder,String search,Integer page,String filter){
         //多字段查询
         nativeSearchQueryBuilder.withQuery(QueryBuilders.multiMatchQuery(search, "title", "brandName", "category"));
 
         //设置高亮
         nativeSearchQueryBuilder.withHighlightBuilder(ESHighLightUtil.getHighlightBuilder("title"));
+        System.err.println(filter);
+        //搜索过滤
+        if(!StringUtils.isEmpty(filter) && filter.length() > 2){
+
+            BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+            Map<String, String> filterMap = JSONUtil.toMapValueString(filter);
+
+            filterMap.forEach((key, value) -> {
+                MatchQueryBuilder queryBuilder = null;
+                if(key.equals("brandId") || key.equals("cid3")){
+                    queryBuilder = QueryBuilders.matchQuery(key, value);
+                }else{
+                    queryBuilder = QueryBuilders.matchQuery("specs."+key+".keyword",value);
+                }
+                boolQueryBuilder.must(queryBuilder);
+            });
+
+            nativeSearchQueryBuilder.withQuery(boolQueryBuilder);
+        }
+
         //设置页数
         nativeSearchQueryBuilder.withPageable(PageRequest.of(page,10));
         //搜索过滤

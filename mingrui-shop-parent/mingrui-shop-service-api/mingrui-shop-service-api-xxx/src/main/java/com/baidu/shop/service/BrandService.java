@@ -9,6 +9,7 @@ import com.baidu.shop.validate.group.MingruiOperation;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public interface BrandService {
 
     @GetMapping(value="brand/list")
     @ApiOperation("品牌查询")
-    Result<PageInfo<BrandEntity>> getBrandList(BrandDTO brandDTO);
+    Result<PageInfo<BrandEntity>> getBrandList(@SpringQueryMap BrandDTO brandDTO);
 
     @GetMapping(value="brand/getBrandbyId")
     @ApiOperation("根据分类id查询品牌数据")

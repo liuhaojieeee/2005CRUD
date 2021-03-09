@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>测试thymeleaffff</title>
+</head>
+    <body>
+            <!-- th:指令依赖于h5-->
+            你好:<span th:text="${#ctx.Integer}"></span><br>
+            <!-- data-th-text 指令支持非 h5-->
+            密码是：<span data-th-text="${stu.pass}"></span><br>
+            <!--对象['属性值'] 如果变量是动态的，可以用此属性-->
+            您的年龄是：<span th:text="${stu['age']}"></span><br>
+            <!--对象的value中有html需要渲染的使用 utext 输出-->
+            您喜欢的颜色是<span th:utext="${stu.likeColor}"></span>
+    <hr/>
+            <!-- th:指令依赖于h5-->
+            <div th:object="${stu}">
+            你好:<span th:text="*{code}"></span><br>
+            <!-- data-th-text 指令支持非 h5-->
+            密码是：<span data-th-text="*{pass.split('')[1]}"></span><br>
+            <!--对象['属性值'] 如果变量是动态的，可以用此属性-->
+            您的年龄是：<span th:text="*{age}"></span><br>
+            <!--对象的value中有html需要渲染的使用 utext 输出-->
+            您喜欢的颜色是<span th:utext="*{likeColor}"></span>
+            </div>
+
+    <hr/>
+            <span th:text="'666'"></span><br>
+            <span th:text="12345679*72"></span><br>
+            <span th:if="${stu.age} gt 18">成年</span><br>
+            <span th:if="${stu.age} lt 18">未成年</span><br>
+            <span th:text="${'你好'+stu.code+'666'}"></span><br>
+            <span th:text="|你好${stu.code}555|"></span><br>
+            <span th:text="${stu.age}*2"></span><br>
+            <span th:text="${stu.age} >= 18 ?'成年':'未成年'"></span>
+            <span th:text="${stu.age} ?:'' "></span>  <!--非空-->
+    <hr>
+            <!--switch 选择-->
+            <span th:switch="${stu.code}">
+                <span th:case="'001'">1号员工，骨灰级</span>
+                <span th:case="'002'">2号员工，元老级</span>
+                <span th:case="'003'">3号员工，老员工</span>
+                <span th:case="'004'">4号员工，新员工</span>
+                <span th:case="*">临时工</span>
+                </span>
+    </body>
+</html>

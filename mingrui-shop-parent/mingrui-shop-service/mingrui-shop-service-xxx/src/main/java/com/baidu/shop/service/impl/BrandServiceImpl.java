@@ -117,8 +117,10 @@ public class BrandServiceImpl extends BaseApiService implements BrandService {
     public Result<PageInfo<BrandEntity>> getBrandList(BrandDTO brandDTO) {
         //limit 作用? 限制查询
         //mybatis如何自定义分页插件 --> mybatis执行器
+        if(ObjectUtil.isNotNull(brandDTO.getPage()))
         PageHelper.startPage(brandDTO.getPage(),brandDTO.getRows());
         //排序
+        if(!StringUtils.isEmpty(brandDTO.getSort()))
         PageHelper.orderBy(brandDTO.getOrderBy());
         //bean copy
         // BrandEntity brandEntity = new BrandEntity();
@@ -126,7 +128,11 @@ public class BrandServiceImpl extends BaseApiService implements BrandService {
         BrandEntity brandEntity = BaiduBeanUtil.copyProperties(brandDTO,BrandEntity.class);
 
         Example example = new Example(BrandEntity.class);
-        example.createCriteria().andLike("name","%"+brandEntity.getName()+"%");
+        Example.Criteria criteria = example.createCriteria();
+        if(!StringUtils.isEmpty(brandDTO.getName()))
+        criteria.andLike("name","%"+brandEntity.getName()+"%");
+        if(ObjectUtil.isNotNull(brandDTO.getId()))
+        criteria.andEqualTo("id",brandEntity.getId());
 
         List<BrandEntity> brandEntities = brandMapper.selectByExample(example);
         PageInfo<BrandEntity> PageInfo = new PageInfo<>(brandEntities);

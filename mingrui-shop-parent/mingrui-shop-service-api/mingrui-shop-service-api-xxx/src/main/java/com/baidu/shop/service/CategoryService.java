@@ -20,7 +20,7 @@ public interface CategoryService {
 
     @ApiOperation(value = "通过brandId查询商品分类")
     @GetMapping(value = "category/brand")
-    Result<List<CategoryEntity>> getCategoryByBrandId(Integer brandId);
+    Result<List<CategoryEntity>> getCategoryByBrandId(@RequestParam Integer brandId);
 
     @ApiOperation(value = "删除商品分类")
     @DeleteMapping(value = "category/delete")

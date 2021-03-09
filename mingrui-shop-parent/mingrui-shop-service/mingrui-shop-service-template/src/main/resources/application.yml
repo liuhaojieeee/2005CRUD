@@ -1,0 +1,25 @@
+server:
+  port: 8400
+spring:
+  application:
+    name: template-server
+  thymeleaf:
+    #配置前缀 ---> 模板文件地址
+    prefix:  classpath:/templates/
+    #检查本地模板
+    check-template-location: true
+    suffix: .html
+    #编码格式
+    encoding: UTF-8
+    servlet:
+    # 模板类型
+      content-type: text/html
+    #模板模式
+    mode: HTML5
+    #是否用缓存
+    cache: false
+# eureka配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
