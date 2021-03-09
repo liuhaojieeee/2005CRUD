@@ -27,22 +27,22 @@ import java.util.stream.Collectors;
  * @Date 2021/3/8
  * @Version V1.0
  **/
-@Service
+//@Service
 public class PageServiceImpl implements PageService {
 
-    @Autowired
+//    @Autowired
     private GoodsFeign goodsFeign;
 
-    @Autowired
+//    @Autowired
     private SpecificationFeign specificationFeign;
 
-    @Autowired
+//    @Autowired
     private CategoryFeign categoryFeign;
 
-    @Autowired
+//    @Autowired
     private BrandFeign brandFeign;
 
-    @Override
+//    @Override
     public Map<String, Object> getGoodsInfo(Integer spuId) {
         Map<String, Object> goodsInfoMap = new HashMap<>();
         //获取spu数据

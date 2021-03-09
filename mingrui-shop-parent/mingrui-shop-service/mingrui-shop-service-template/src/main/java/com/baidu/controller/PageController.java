@@ -18,14 +18,14 @@ import java.util.Map;
  * @Date 2021/3/8
  * @Version V1.0
  **/
-@Controller
-@RequestMapping(value = "item")
+//@Controller
+//@RequestMapping(value = "item")
 public class PageController {
 
-    @Resource
+//    @Resource
     private PageService pageService;
 
-    @GetMapping(value = "{spuId}.html")
+//    @GetMapping(value = "{spuId}.html")
     public String  test(@PathVariable(value = "spuId") Integer spuId, ModelMap modelMap){
 
         Map<String,Object> map = pageService.getGoodsInfo(spuId);
@@ -33,7 +33,7 @@ public class PageController {
 
         return "item";
     }
-    @GetMapping(value = "qwe")
+//    @GetMapping(value = "qwe")
     public String  test1(){
         return "123";
     }

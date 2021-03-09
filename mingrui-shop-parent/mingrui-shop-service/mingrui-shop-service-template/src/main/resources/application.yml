@@ -18,6 +18,10 @@ spring:
     mode: HTML5
     #是否用缓存
     cache: false
+mrshop:
+  static:
+    html:
+      path: D:\static-html\item
 # eureka配置
 eureka:
   client:
